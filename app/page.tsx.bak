@@ -1,0 +1,35 @@
+"use client";
+
+import React, { useState } from "react";
+import Layout from "@/components/Layout";
+import DashboardView from "@/components/DashboardView";
+import CreateAttestationView from "@/components/CreateAttestationView";
+import HistoryView from "@/components/HistoryView";
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  return (
+    <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
+      {activeTab === "dashboard" && <DashboardView onNavigate={setActiveTab} />}
+      {activeTab === "create" && <CreateAttestationView />}
+      {activeTab === "history" && <HistoryView />}
+      {activeTab === "send" && <HistoryView />}
+      {activeTab === "settings" && (
+        <div className="p-8 max-w-xl">
+          <h2 className="text-xl font-bold text-slate-100 mb-4">Paramètres du Système</h2>
+          <div className="bg-slate-950 border border-slate-800 p-6 rounded-xl space-y-4 text-xs text-slate-300">
+            <div>
+              <label className="block text-slate-400 mb-1">Serveur SMTP</label>
+              <input type="text" value="smtp.gmail.com" readOnly className="w-full bg-slate-900 border border-slate-800 rounded p-2 text-slate-200" />
+            </div>
+            <div>
+              <label className="block text-slate-400 mb-1">E-mail Expéditeur</label>
+              <input type="text" value="contact@beninhub-tech.net" readOnly className="w-full bg-slate-900 border border-slate-800 rounded p-2 text-slate-200" />
+            </div>
+          </div>
+        </div>
+      )}
+    </Layout>
+  );
+}
