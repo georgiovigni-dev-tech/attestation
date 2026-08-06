@@ -2,6 +2,11 @@
 
 import React, { useState } from "react";
 import { Loader2, Send, Save, CheckCircle2, AlertTriangle } from "lucide-react";
+import {
+  ATTESTATION_CSS,
+  buildAttestationContent,
+  buildAttestationDataFromForm,
+} from "@/lib/attestation-html";
 
 export interface AttestationFormValues {
   directorTitleName: string;
@@ -59,11 +64,7 @@ export default function CreateAttestationView({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const formatDateDisplay = (dateStr: string) => {
-    if (!dateStr) return "";
-    const [y, m, d] = dateStr.split("-");
-    return `${d}/${m}/${y}`;
-  };
+  const previewHtml = buildAttestationContent(buildAttestationDataFromForm(formData));
 
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
@@ -345,70 +346,9 @@ export default function CreateAttestationView({
 
       {/* Panneau Prévisualisation Temps Réel (Feuille A4) */}
       <div className="w-full lg:w-1/2 p-8 bg-slate-900 overflow-y-auto flex flex-col items-center justify-start">
-        <div className="w-full max-w-[595px] bg-white text-slate-900 shadow-2xl p-10 font-serif relative rounded-sm min-h-[842px] flex flex-col justify-between text-[13px] leading-relaxed select-none">
-          {/* Filigrane BHT */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
-            <span className="text-[140px] font-bold text-slate-900 tracking-widest rotate-[-30deg]">BHT</span>
-          </div>
-
-          <div className="relative z-10 space-y-8">
-            {/* Header Document */}
-            <div className="flex items-start justify-between border-b border-slate-300 pb-4">
-              <div className="w-1/3">
-                <div className="text-2xl font-bold text-[#12719c] font-sans tracking-tight">BHT</div>
-                <div className="text-xs font-semibold text-[#12719c] font-sans">Bénin Hub Technologies</div>
-              </div>
-              <div className="w-2/3 pl-4 border-l-2 border-[#12719c] text-[10px] italic text-slate-600 font-sans leading-tight">
-                Pôle d&apos;innovation et de formation numérique basé à Abomey-Calavi, BHT certifie que le présent document est délivré conformément à ses standards d&apos;excellence. L&apos;entreprise accompagne les talents tech, promeut l&apos;entrepreneuriat digital et participe activement à la transformation numérique du Bénin.
-              </div>
-            </div>
-
-            {/* Titre */}
-            <div className="text-center py-4">
-              <h1 className="text-xl font-bold text-[#12719c] underline underline-offset-4 tracking-wide font-sans">
-                ATTESTATION DE STAGE
-              </h1>
-            </div>
-
-            {/* Corps */}
-            <div className="space-y-6 text-justify text-slate-800">
-              <p>
-                Je soussigné, <strong className="text-slate-950">{formData.directorTitleName}</strong>, Directeur Général de{" "}
-                <strong className="text-slate-950">{formData.companyName}</strong>, certifie que{" "}
-                <strong className="text-slate-950">{formData.studentGender} {formData.studentFullName}</strong> né(e) le{" "}
-                <strong className="text-slate-950">{formatDateDisplay(formData.birthDate)}</strong> à{" "}
-                <strong className="text-slate-950">{formData.birthPlace}</strong>, étudiant(e) à{" "}
-                <strong className="text-slate-950">{formData.schoolName}</strong> en{" "}
-                <strong className="text-slate-950">{formData.filiere}</strong>, a effectué un stage et formation au sein de notre entreprise du{" "}
-                <strong className="text-slate-950">{formData.startPeriod} au {formData.endPeriod}</strong>.
-              </p>
-
-              <p>
-                Durant cette période, le/la stagiaire a participé activement aux activités des pôles{" "}
-                <strong className="text-slate-950">{formData.poles}</strong>, développé des compétences concrètes, et fait preuve de rigueur, d&apos;autonomie et d&apos;esprit collaboratif, conformément aux valeurs d&apos;excellence et d&apos;innovation de <strong className="text-slate-950">BHT</strong>.
-              </p>
-
-              <p>La présente attestation est délivrée pour servir et valoir ce que de droit.</p>
-            </div>
-
-            {/* Lieu et Date */}
-            <div className="text-right pt-4 font-semibold text-slate-900">
-              Fait à {formData.issuePlace}, le {formatDateDisplay(formData.issueDate)}.
-            </div>
-
-            {/* Signature */}
-            <div className="text-right pt-12 space-y-1">
-              <div className="font-bold text-slate-900">Mr Aziz SAIBOU</div>
-              <div className="underline text-slate-800">Le Directeur Général</div>
-            </div>
-          </div>
-
-          {/* Footer Document */}
-          <div className="relative z-10 border-t border-[#12719c] pt-3 flex justify-between text-[10px] text-[#12719c] font-sans">
-            <span>contact@beninhub-tech.net</span>
-            <span>Abomey-Calavi</span>
-            <span>+229 01 97 77 06 36</span>
-          </div>
+        <div className="w-full max-w-[794px] select-none">
+          <style>{ATTESTATION_CSS}</style>
+          <div className="shadow-2xl rounded-sm overflow-hidden" dangerouslySetInnerHTML={{ __html: previewHtml }} />
         </div>
       </div>
     </div>
