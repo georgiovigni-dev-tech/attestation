@@ -54,10 +54,9 @@ function strong(value: string) {
   return `<strong>${esc(value)}</strong>`;
 }
 
-// A4 à 96 dpi : 210mm = 794px, 297mm = 1122px (identique à l'écran et en impression)
+// CSS scoped à la feuille (.att-*) : aucun impact global sur l'interface.
 export const ATTESTATION_CSS = `
-  @page { size: A4; margin: 0; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .att-paper, .att-paper *, .att-paper *::before, .att-paper *::after { box-sizing: border-box; }
   .att-paper {
     width: 794px; min-height: 1122px; padding: 46px 38px 30px;
     background: #fff; color: #0f172a;
