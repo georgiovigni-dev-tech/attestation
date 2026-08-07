@@ -5,14 +5,21 @@ import { FileCheck, MailCheck, Clock, AlertTriangle, TrendingUp } from "lucide-r
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import type { DashboardAttestationItem } from "@/components/DashboardShell";
 
-const dataChart = [
-  { month: "Jan", attestations: 12 },
-  { month: "Fév", attestations: 19 },
-  { month: "Mar", attestations: 25 },
-  { month: "Avr", attestations: 18 },
-  { month: "Mai", attestations: 32 },
-  { month: "Juin", attestations: 28 },
-];
+const MONTHS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
+
+function buildChartData(attestations: DashboardAttestationItem[]) {
+  const year = new Date().getFullYear();
+  const counts = new Array(12).fill(0);
+
+  for (const item of attestations) {
+    const date = new Date(item.createdAt || new Date());
+    if (!isNaN(date.getTime()) && date.getFullYear() === year) {
+      counts[date.getMonth()] += 1;
+    }
+  }
+
+  return MONTHS.map((month, i) => ({ month, attestations: counts[i] }));
+}
 
 interface DashboardViewProps {
   onNavigate: (tab: string) => void;
@@ -26,6 +33,7 @@ interface DashboardViewProps {
 }
 
 export default function DashboardView({ onNavigate, stats, attestations }: DashboardViewProps) {
+  const dataChart = buildChartData(attestations);
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto w-full">
       <div className="flex justify-between items-center border-b border-slate-800 pb-5">
@@ -109,7 +117,7 @@ export default function DashboardView({ onNavigate, stats, attestations }: Dashb
 
       {/* Graphique de Production */}
       <div className="bg-slate-950 border border-slate-800 p-6 rounded-xl space-y-4">
-        <h3 className="text-sm font-semibold text-slate-200">Volume d&apos;Attestations Générées (2026)</h3>
+        <h3 className="text-sm font-semibold text-slate-200">Volume d&apos;Attestations Générées ({new Date().getFullYear()})</h3>
         <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={dataChart} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>

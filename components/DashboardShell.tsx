@@ -13,6 +13,7 @@ export interface DashboardAttestationItem {
   filiere: string;
   school: string;
   issueDate: string;
+  createdAt: string | null;
   status: "sent" | "generated" | "error";
   email: string;
   pdfUrl?: string | null;

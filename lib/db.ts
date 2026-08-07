@@ -6,6 +6,7 @@ export interface AttestationRecord {
   filiere: string;
   school: string;
   issueDate: string;
+  createdAt: string | null;
   status: "sent" | "generated" | "error";
   email: string;
   pdfUrl?: string | null;
@@ -16,7 +17,7 @@ export async function getAttestationsFromDb(): Promise<AttestationRecord[]> {
   const { data, error } = await supabase
     .from("attestations")
     .select(
-      "id, student_full_name, filiere, school_name, issue_date, status, student_email, pdf_url, docx_url"
+      "id, student_full_name, filiere, school_name, issue_date, status, student_email, pdf_url, docx_url, created_at"
     )
     .order("created_at", { ascending: false });
 
@@ -33,6 +34,7 @@ export async function getAttestationsFromDb(): Promise<AttestationRecord[]> {
     issueDate: row.issue_date
       ? new Date(row.issue_date).toLocaleDateString("fr-FR")
       : "-",
+    createdAt: row.created_at || null,
     status: (row.status as AttestationRecord["status"]) || "generated",
     email: row.student_email || "-",
     pdfUrl: row.pdf_url || null,

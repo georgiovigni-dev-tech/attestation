@@ -34,7 +34,7 @@ const DEFAULT_VALUES: AttestationFormValues = {
   poles: "Réseau et Cybersécurité",
   issuePlace: "Abomey-Calavi",
   issueDate: "2026-05-11",
-  studentEmail: "lokossou.carell@example.com",
+  studentEmail: "georgio.carell@example.com",
 };
 
 interface CreateAttestationViewProps {
@@ -394,7 +394,7 @@ export default function CreateAttestationView({
 
       {/* Panneau Prévisualisation Temps Réel (Feuille A4) */}
       <div className="w-full lg:w-1/2 p-8 bg-slate-900 overflow-y-auto flex flex-col items-center justify-start">
-        <div className="w-full max-w-[595px] bg-white text-slate-900 shadow-2xl p-10 font-serif relative rounded-sm min-h-[842px] flex flex-col justify-between text-[13px] leading-relaxed select-none">
+        <div className="w-full max-w-[540px] bg-white text-black shadow-2xl p-8 font-serif relative rounded-sm min-h-[1100px] flex flex-col justify-between text-[14px] leading-relaxed select-none overflow-hidden">
           {previewUrl && (
             <div className="absolute inset-0 z-20 bg-white">
               <iframe
@@ -405,64 +405,64 @@ export default function CreateAttestationView({
             </div>
           )}
           {/* Filigrane BHT */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
-            <span className="text-[140px] font-bold text-slate-900 tracking-widest rotate-[-30deg]">BHT</span>
-          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-35deg] font-sans font-black text-[200px] text-black opacity-[0.045] pointer-events-none select-none z-[1] tracking-[0.02em]">BHT</div>
 
-          <div className="relative z-10 space-y-8">
+          <div className="relative z-10 flex flex-col flex-1">
             {/* Header Document */}
-            <div className="flex items-start justify-between border-b border-slate-300 pb-4">
-              <div className="w-1/3">
-                <div className="text-2xl font-bold text-[#12719c] font-sans tracking-tight">BHT</div>
-                <div className="text-xs font-semibold text-[#12719c] font-sans">Bénin Hub Technologies</div>
+            <div className="flex items-stretch justify-between mb-8">
+              <div className="flex flex-col justify-center w-[200px] flex-shrink-0">
+                <div className="text-[42px] font-extrabold font-sans leading-[0.9] tracking-[-1px]">
+                  <span className="text-[#1d7fa6]">B</span>
+                  <span className="text-[#b83232]">H</span>
+                  <span className="text-[#1d7fa6]">T</span>
+                </div>
+                <div className="text-[16px] font-bold text-[#1d7fa6] font-sans leading-tight mt-1.5">
+                  Bénin Hub<br />Technologies
+                </div>
               </div>
-              <div className="w-2/3 pl-4 border-l-2 border-[#12719c] text-[10px] italic text-slate-600 font-sans leading-tight">
+              <div className="w-[2px] bg-black mx-5 flex-shrink-0 self-stretch" />
+              <div className="flex-1 text-[11px] italic text-[#111111] font-serif leading-snug flex items-center">
                 Pôle d&apos;innovation et de formation numérique basé à Abomey-Calavi, BHT certifie que le présent document est délivré conformément à ses standards d&apos;excellence. L&apos;entreprise accompagne les talents tech, promeut l&apos;entrepreneuriat digital et participe activement à la transformation numérique du Bénin.
               </div>
             </div>
 
             {/* Titre */}
-            <div className="text-center py-4">
-              <h1 className="text-xl font-bold text-[#12719c] underline underline-offset-4 tracking-wide font-sans">
+            <div className="text-center my-8">
+              <h1 className="text-[22px] font-bold text-[#1d7fa6] underline underline-offset-4 tracking-wide font-sans">
                 ATTESTATION DE STAGE
               </h1>
             </div>
 
             {/* Corps */}
-            <div className="space-y-6 text-justify text-slate-800">
+            <div className="flex flex-col gap-7 text-justify text-black text-[14px] leading-[1.8]">
               <p>
-                Je soussigné, <strong className="text-slate-950">{formData.directorTitleName}</strong>, Directeur Général de{" "}
-                <strong className="text-slate-950">{formData.companyName}</strong>, certifie que{" "}
-                <strong className="text-slate-950">{formData.studentGender} {formData.studentFullName}</strong> né(e) le{" "}
-                <strong className="text-slate-950">{formatDateDisplay(formData.birthDate)}</strong> à{" "}
-                <strong className="text-slate-950">{formData.birthPlace}</strong>, étudiant(e) à{" "}
-                <strong className="text-slate-950">{formData.schoolName}</strong> en{" "}
-                <strong className="text-slate-950">{formData.filiere}</strong>, a effectué un stage et formation au sein de notre entreprise du{" "}
-                <strong className="text-slate-950">{formData.startPeriod} au {formData.endPeriod}</strong>.
+                Je soussigné, <strong>{formData.directorTitleName}</strong>, Directeur Général de <strong>{formData.companyName}</strong>, certifie que{" "}
+                <strong>{formData.studentGender} {formData.studentFullName}</strong> né(e) le <strong>{formatDateDisplay(formData.birthDate)}</strong> à{" "}
+                <strong>{formData.birthPlace}</strong>, étudiant(e) à <strong>{formData.schoolName}</strong> en <strong>{formData.filiere}</strong>,{" "}
+                a effectué un stage et formation au sein de notre entreprise du <strong>{formData.startPeriod} au {formData.endPeriod}</strong>.
               </p>
 
               <p>
-                Durant cette période, le/la stagiaire a participé activement aux activités des pôles{" "}
-                <strong className="text-slate-950">{formData.poles}</strong>, développé des compétences concrètes, et fait preuve de rigueur, d&apos;autonomie et d&apos;esprit collaboratif, conformément aux valeurs d&apos;excellence et d&apos;innovation de <strong className="text-slate-950">BHT</strong>.
+                Durant cette période, le/la stagiaire a participé activement aux activités des pôles <strong>{formData.poles}</strong>, développé des compétences concrètes, et fait preuve de rigueur, d&apos;autonomie et d&apos;esprit collaboratif, conformément aux valeurs d&apos;excellence et d&apos;innovation de <strong>BHT</strong>.
               </p>
 
               <p>La présente attestation est délivrée pour servir et valoir ce que de droit.</p>
             </div>
 
             {/* Lieu et Date */}
-            <div className="text-right pt-4 font-semibold text-slate-900">
-              Fait à {formData.issuePlace}, le {formatDateDisplay(formData.issueDate)}.
+            <div className="text-right font-bold mt-8 text-[14px]">
+              <strong>Fait à {formData.issuePlace}, le {formatDateDisplay(formData.issueDate)}.</strong>
             </div>
 
             {/* Signature */}
-            <div className="text-right pt-12 space-y-1">
-              <div className="font-bold text-slate-900">Mr Aziz SAIBOU</div>
-              <div className="underline text-slate-800">Le Directeur Général</div>
+            <div className="text-right mt-auto mb-3 flex flex-col gap-1 items-end font-sans">
+              <div className="font-bold text-[15px] text-black">Mr Aziz SAIBOU</div>
+              <div className="underline text-[15px] text-black">Le Directeur Général</div>
             </div>
           </div>
 
           {/* Footer Document */}
-          <div className="relative z-10 border-t border-[#12719c] pt-3 flex justify-between text-[10px] text-[#12719c] font-sans">
+          <div className="relative z-10 border-t-2 border-[#1d7fa6] pt-2.5 flex justify-between text-[11px] text-[#1d7fa6] font-sans">
             <span>contact@beninhub-tech.net</span>
             <span>Abomey-Calavi</span>
             <span>+229 01 97 77 06 36</span>
