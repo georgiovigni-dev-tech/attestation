@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Loader2, Send, Save, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Loader2, Send, Save, Printer, CheckCircle2, AlertTriangle } from "lucide-react";
 
 export interface AttestationFormValues {
   directorTitleName: string;
@@ -68,6 +68,7 @@ export default function CreateAttestationView({
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const isEdit = Boolean(attestationId);
 
@@ -125,6 +126,46 @@ export default function CreateAttestationView({
       setMessage({ type: "error", text: message });
     } finally {
       setSending(false);
+    }
+  }
+
+  async function handlePrint() {
+    setSaving(true);
+    setMessage(null);
+    try {
+      const response = await fetch("/api/attestations/print", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: attestationId ?? null, form: formData }),
+      });
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || "Échec de l'impression");
+      }
+
+      const blob = await response.blob();
+
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = `Attestation_Stage_${formData.studentFullName.replace(/\s+/g, "_")}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(downloadUrl);
+
+      setPreviewUrl(URL.createObjectURL(blob));
+      setMessage({
+        type: "success",
+        text: "PDF du document final généré et enregistré sur votre PC et en base. Le candidat recevra exactement ce fichier par e-mail.",
+      });
+      if (isEdit) onChanged?.();
+      else onCreated?.();
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Échec de l'impression du document.";
+      setMessage({ type: "error", text: msg });
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -320,6 +361,14 @@ export default function CreateAttestationView({
             </button>
             <button
               type="button"
+              onClick={handlePrint}
+              disabled={saving || sending}
+              className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-100 font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
+            >
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Printer className="w-4 h-4" />} Imprimer
+            </button>
+            <button
+              type="button"
               onClick={handleSaveAndSend}
               disabled={saving || sending}
               className="flex-1 bg-sky-600 hover:bg-sky-500 text-white font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
@@ -346,6 +395,15 @@ export default function CreateAttestationView({
       {/* Panneau Prévisualisation Temps Réel (Feuille A4) */}
       <div className="w-full lg:w-1/2 p-8 bg-slate-900 overflow-y-auto flex flex-col items-center justify-start">
         <div className="w-full max-w-[595px] bg-white text-slate-900 shadow-2xl p-10 font-serif relative rounded-sm min-h-[842px] flex flex-col justify-between text-[13px] leading-relaxed select-none">
+          {previewUrl && (
+            <div className="absolute inset-0 z-20 bg-white">
+              <iframe
+                src={previewUrl}
+                title="Aperçu du PDF généré"
+                className="w-full h-full rounded-sm"
+              />
+            </div>
+          )}
           {/* Filigrane BHT */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
             <span className="text-[140px] font-bold text-slate-900 tracking-widest rotate-[-30deg]">BHT</span>

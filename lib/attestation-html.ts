@@ -55,33 +55,38 @@ function strong(value: string) {
 }
 
 // CSS scoped à la feuille (.att-*) : aucun impact global sur l'interface.
+// Valeurs alignées sur l'aperçu à l'écran (CreateAttestationView) pour garantir
+// que le PDF imprimé est identique au template de départ (595x842, p-10).
 export const ATTESTATION_CSS = `
   .att-paper, .att-paper *, .att-paper *::before, .att-paper *::after { box-sizing: border-box; }
   .att-paper {
-    width: 794px; min-height: 1122px; padding: 46px 38px 30px;
+    width: 794px; min-height: 1123px; padding: 40px;
     background: #fff; color: #0f172a;
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: 13px; line-height: 1.6;
+    font-size: 13px; line-height: 1.625;
     position: relative; display: flex; flex-direction: column; justify-content: space-between;
     overflow: hidden;
   }
-  .att-watermark { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.04; pointer-events: none; }
-  .att-watermark span { font-size: 130px; font-weight: bold; letter-spacing: 0.2em; transform: rotate(-30deg); color: #0f172a; }
-  .att-content { position: relative; }
-  .att-header { display: flex; align-items: stretch; justify-content: space-between; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px; }
-  .att-brand { width: 34%; }
-  .att-brand .att-logo { font-size: 26px; font-weight: 800; color: #12719c; font-family: Arial, Helvetica, sans-serif; letter-spacing: -0.5px; }
+  .att-watermark { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.03; pointer-events: none; }
+  .att-watermark span { font-size: 140px; font-weight: bold; letter-spacing: 0.2em; transform: rotate(-30deg); color: #0f172a; }
+  .att-content { position: relative; z-index: 10; }
+  .att-header { display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid #cbd5e1; padding-bottom: 16px; }
+  .att-brand { width: 33%; }
+  .att-brand .att-logo { font-size: 24px; font-weight: 700; color: #12719c; font-family: Arial, Helvetica, sans-serif; letter-spacing: -0.025em; }
   .att-brand .att-sub { font-size: 12px; font-weight: 600; color: #12719c; font-family: Arial, Helvetica, sans-serif; }
-  .att-desc { width: 64%; padding-left: 10px; border-left: 2px solid #12719c; font-size: 10px; font-style: italic; color: #475569; font-family: Arial, Helvetica, sans-serif; line-height: 1.4; display: flex; align-items: center; }
-  .att-title { text-align: center; padding: 14px 0; }
-  .att-title h1 { font-size: 21px; color: #12719c; text-decoration: underline; text-underline-offset: 5px; font-family: Arial, Helvetica, sans-serif; letter-spacing: 0.05em; }
+  .att-desc { width: 66%; padding-left: 16px; border-left: 2px solid #12719c; font-size: 10px; font-style: italic; color: #475569; font-family: Arial, Helvetica, sans-serif; line-height: 1.25; }
+  .att-title { text-align: center; padding: 16px 0; }
+  .att-title h1 { font-size: 20px; font-weight: 700; color: #12719c; text-decoration: underline; text-underline-offset: 4px; font-family: Arial, Helvetica, sans-serif; letter-spacing: 0.05em; }
   .att-body { text-align: justify; color: #1e293b; }
-  .att-body p { margin: 0 0 14px; }
-  .att-date { text-align: right; font-weight: 600; margin-top: 10px; }
-  .att-signature { text-align: right; margin-top: 44px; }
+  .att-body p { margin: 0; }
+  .att-body p + p { margin-top: 24px; }
+  .att-body strong { color: #0f172a; }
+  .att-content > * + * { margin-top: 32px; }
+  .att-date { text-align: right; font-weight: 600; }
+  .att-signature { text-align: right; padding-top: 48px; }
   .att-signature .att-name { font-weight: 700; }
   .att-signature .att-role { text-decoration: underline; }
-  .att-footer { border-top: 1px solid #12719c; padding-top: 8px; display: flex; justify-content: space-between; font-size: 10px; color: #12719c; font-family: Arial, Helvetica, sans-serif; }
+  .att-footer { border-top: 1px solid #12719c; padding-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #12719c; font-family: Arial, Helvetica, sans-serif; }
 `;
 
 function buildContent(data: AttestationData): string {

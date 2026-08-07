@@ -43,13 +43,12 @@ export async function generateDocxBuffer(data: AttestationData): Promise<Buffer>
           },
         },
         children: [
-          // ---- En-tête : marque BHT + description ----
+          // ---- En-tête : marque BHT (gauche) + description (droite) ----
           new Paragraph({
-            border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: SKY } },
+            border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: "CBD5E1" } },
             spacing: { after: 300 },
             children: [
               new TextRun({ text: "BHT", bold: true, size: 48, color: SKY, font: "Arial" }),
-              new TextRun({ text: "  Bénin Hub Technologies", bold: true, size: 26, color: SKY, font: "Arial" }),
             ],
           }),
           new Paragraph({
@@ -60,7 +59,7 @@ export async function generateDocxBuffer(data: AttestationData): Promise<Buffer>
                 text: "Pôle d'innovation et de formation numérique basé à Abomey-Calavi, BHT certifie que le présent document est délivré conformément à ses standards d'excellence. L'entreprise accompagne les talents tech, promeut l'entrepreneuriat digital et participe activement à la transformation numérique du Bénin.",
                 italics: true,
                 size: 18,
-                color: "4A5568",
+                color: "475569",
               }),
             ],
           }),
@@ -69,12 +68,12 @@ export async function generateDocxBuffer(data: AttestationData): Promise<Buffer>
           new Paragraph({
             heading: HeadingLevel.HEADING_1,
             alignment: AlignmentType.CENTER,
-            spacing: { after: 400 },
+            spacing: { before: 200, after: 400 },
             children: [
               new TextRun({
                 text: "ATTESTATION DE STAGE",
                 bold: true,
-                size: 32,
+                size: 40,
                 color: SKY,
                 underline: { type: "single", color: SKY },
               }),

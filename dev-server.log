@@ -1,0 +1,19 @@
+$ next dev
+▲ Next.js 16.3.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.30.80.1:3000
+- Environments: .env
+✓ Ready in 952ms
+✓ Running next.config.ts took 78ms
+
+ GET /login 200 in 966ms (next.js: 501ms, application-code: 466ms)
+ GET / 307 in 358ms (next.js: 93ms, application-code: 265ms)
+ GET /dashboard 200 in 2.3s (next.js: 115ms, application-code: 2.2s)
+ GET /api/attestations 200 in 1479ms (next.js: 355ms, application-code: 1124ms)
+ GET /api/attestations 200 in 452ms (next.js: 5ms, application-code: 446ms)
+ GET /dashboard 200 in 1998ms (next.js: 15ms, application-code: 1983ms)
+ GET /api/attestations 200 in 261ms (next.js: 8ms, application-code: 253ms)
+ GET /api/attestations 200 in 254ms (next.js: 6ms, application-code: 247ms)
+ POST /api/attestations/print 200 in 8.5s (next.js: 593ms, application-code: 7.9s)
+ GET /api/attestations 200 in 743ms (next.js: 16ms, application-code: 727ms)
+^C[ELIFECYCLE] Command failed with exit code 3221225786.
