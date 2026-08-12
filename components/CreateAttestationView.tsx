@@ -437,11 +437,6 @@ export default function CreateAttestationView({
           </div>
 
           <div className="relative z-10 flex flex-col flex-1">
-            {/* Champ Ref tout en haut */}
-            <div className="text-[12px] font-semibold text-slate-800 mb-2">
-              Ref: {attestationId ? `BHT/2026/STG-${attestationId.slice(0, 4).toUpperCase()}` : "BHT/2026/STG-001"}
-            </div>
-
             {/* En-tête BHT */}
             <div className="flex items-center justify-between border-b-2 border-[#1c2c5b] pb-3 mb-8">
               <div className="flex items-center font-black text-5xl tracking-tighter">
@@ -473,7 +468,7 @@ export default function CreateAttestationView({
             <div className="space-y-6 text-justify text-slate-900 text-[14px] leading-[1.8] my-4">
               <p>
                 Je soussigné, <strong>{formData.directorTitleName}</strong>, Directeur Général de <strong>{formData.companyName}</strong>, certifie que{" "}
-                <strong>{formData.studentGender} {formData.studentFullName}</strong> né(e) le <strong>{formatDateDisplay(formData.birthDate)}</strong> à{" "}
+                <strong>M. / Mme {formData.studentFullName}</strong> né(e) le <strong>{formatDateDisplay(formData.birthDate)}</strong> à{" "}
                 <strong>{formData.birthPlace}</strong>, étudiant(e) à <strong>{formData.schoolName}</strong> en <strong>{formData.filiere}</strong>, a effectué un stage et formation au sein de notre entreprise du <strong>{formData.startPeriod} au {formData.endPeriod}</strong>.
               </p>
 

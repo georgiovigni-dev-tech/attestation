@@ -76,7 +76,6 @@ export const ATTESTATION_CSS = [
   ".att-paper { width: 794px; height: 1123px; padding: 45px 60px 30px 60px; background: #ffffff; color: #000000; font-family: Arial, Helvetica, sans-serif; font-size: 14.5px; line-height: 1.8; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; margin: 0 auto; }",
   ".att-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); font-size: 240px; font-weight: 900; font-family: Arial, Helvetica, sans-serif; color: #1c2c5b; opacity: 0.04; pointer-events: none; user-select: none; z-index: 1; }",
   ".att-content { position: relative; z-index: 10; display: flex; flex-direction: column; flex: 1; }",
-  ".att-ref { font-size: 12px; font-weight: 600; color: #333333; margin-bottom: 8px; font-family: Arial, Helvetica, sans-serif; }",
   ".att-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #1c2c5b; padding-bottom: 12px; margin-bottom: 35px; }",
   ".att-brand-logo { font-size: 46px; font-weight: 900; font-family: Arial, Helvetica, sans-serif; line-height: 1; letter-spacing: -1px; }",
   ".att-brand-logo .blue { color: #1c2c5b; }",
@@ -101,7 +100,7 @@ export const ATTESTATION_CSS = [
 function buildContent(data: AttestationData): string {
   const directorTitle = strong(data.director_title_name);
   const companyName = strong(data.company_name);
-  const studentInfo = strong(data.student_gender + " " + data.student_full_name);
+  const studentInfo = strong("M. / Mme " + data.student_full_name);
   const birthDate = strong(data.birth_date);
   const birthPlace = strong(data.birth_place);
   const schoolName = strong(data.school_name);
@@ -119,7 +118,6 @@ function buildContent(data: AttestationData): string {
     '<div class="att-paper">',
     '  <div class="att-watermark"><span>BHT</span></div>',
     '  <div class="att-content">',
-    '    <div class="att-ref">Ref: BHT/2026/STG-001</div>',
     '    <div class="att-header">',
     '      <div class="att-brand-logo">',
     '        <span class="blue">B</span><span class="red">H</span><span class="blue">T</span>',
