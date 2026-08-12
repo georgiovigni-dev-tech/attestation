@@ -24,17 +24,17 @@ const DEFAULT_VALUES: AttestationFormValues = {
   directorTitleName: "M. SAIBOU Aziz",
   companyName: "BENIN HUB TECHNOLOGIES (BHT)",
   studentGender: "M.",
-  studentFullName: "LOKOSSOU Gbenagnon Carell-Bismark",
-  birthDate: "2006-04-23",
-  birthPlace: "Cotonou",
-  schoolName: "LES COURS SONOU (LCS)",
+  studentFullName: "ADJOU MOUMOUNI Donald Jonathan",
+  birthDate: "2005-07-27",
+  birthPlace: "Abomey-Calavi",
+  schoolName: "LES COURS SONOU CALAVI",
   filiere: "SSRI",
   startPeriod: "09 Février",
   endPeriod: "18 Avril 2026",
   poles: "Réseau et Cybersécurité",
   issuePlace: "Abomey-Calavi",
   issueDate: "2026-05-11",
-  studentEmail: "georgio.carell@example.com",
+  studentEmail: "donald.adjou@example.com",
 };
 
 interface CreateAttestationViewProps {
@@ -61,7 +61,33 @@ export default function CreateAttestationView({
 
   const formatDateDisplay = (dateStr: string) => {
     if (!dateStr) return "";
+    if (!dateStr.includes("-")) return dateStr;
     const [y, m, d] = dateStr.split("-");
+    return `${d}/${m}/${y}`;
+  };
+
+  const formatDateInFrench = (dateStr: string) => {
+    if (!dateStr) return "";
+    if (!dateStr.includes("-")) return dateStr;
+    const [y, m, d] = dateStr.split("-");
+    const months = [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre",
+    ];
+    const monthIdx = parseInt(m, 10) - 1;
+    if (monthIdx >= 0 && monthIdx < 12) {
+      return `${parseInt(d, 10)} ${months[monthIdx]} ${y}`;
+    }
     return `${d}/${m}/${y}`;
   };
 
@@ -392,9 +418,9 @@ export default function CreateAttestationView({
         </form>
       </div>
 
-      {/* Panneau Prévisualisation Temps Réel (Feuille A4) */}
+      {/* Panneau Prévisualisation Temps Réel (Feuille A4 - Exactement conforme au modèle) */}
       <div className="w-full lg:w-1/2 p-8 bg-slate-900 overflow-y-auto flex flex-col items-center justify-start">
-        <div className="w-full max-w-[540px] bg-white text-black shadow-2xl p-8 font-serif relative rounded-sm min-h-[1100px] flex flex-col justify-between text-[14px] leading-relaxed select-none overflow-hidden">
+        <div className="w-full max-w-[650px] bg-white text-black shadow-2xl p-10 font-sans relative rounded-sm min-h-[900px] flex flex-col justify-between text-[14px] leading-relaxed select-none overflow-hidden">
           {previewUrl && (
             <div className="absolute inset-0 z-20 bg-white">
               <iframe
@@ -404,42 +430,51 @@ export default function CreateAttestationView({
               />
             </div>
           )}
-          {/* Filigrane BHT */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-35deg] font-sans font-black text-[200px] text-black opacity-[0.045] pointer-events-none select-none z-[1] tracking-[0.02em]">BHT</div>
+
+          {/* Filigrane BHT en arrière-plan */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-25deg] text-[220px] font-black text-slate-900/5 pointer-events-none select-none z-0">
+            BHT
+          </div>
 
           <div className="relative z-10 flex flex-col flex-1">
-            {/* Header Document */}
-            <div className="flex items-stretch justify-between mb-8">
-              <div className="flex flex-col justify-center w-[200px] flex-shrink-0">
-                <div className="text-[42px] font-extrabold font-sans leading-[0.9] tracking-[-1px]">
-                  <span className="text-[#1d7fa6]">B</span>
-                  <span className="text-[#b83232]">H</span>
-                  <span className="text-[#1d7fa6]">T</span>
-                </div>
-                <div className="text-[16px] font-bold text-[#1d7fa6] font-sans leading-tight mt-1.5">
-                  Bénin Hub<br />Technologies
-                </div>
+            {/* Champ Ref tout en haut */}
+            <div className="text-[12px] font-semibold text-slate-800 mb-2">
+              Ref: {attestationId ? `BHT/2026/STG-${attestationId.slice(0, 4).toUpperCase()}` : "BHT/2026/STG-001"}
+            </div>
+
+            {/* En-tête BHT */}
+            <div className="flex items-center justify-between border-b-2 border-[#1c2c5b] pb-3 mb-8">
+              <div className="flex items-center font-black text-5xl tracking-tighter">
+                <span className="text-[#1c2c5b]">B</span>
+                <span className="text-[#c0392b] relative px-0.5">H</span>
+                <span className="text-[#1c2c5b]">T</span>
               </div>
-              <div className="w-[2px] bg-black mx-5 flex-shrink-0 self-stretch" />
-              <div className="flex-1 text-[11px] italic text-[#111111] font-serif leading-snug flex items-center">
-                Pôle d&apos;innovation et de formation numérique basé à Abomey-Calavi, BHT certifie que le présent document est délivré conformément à ses standards d&apos;excellence. L&apos;entreprise accompagne les talents tech, promeut l&apos;entrepreneuriat digital et participe activement à la transformation numérique du Bénin.
+              <div className="text-right">
+                <h2 className="text-xl font-extrabold text-[#1c2c5b] tracking-normal uppercase">
+                  BENIN HUB TECHNOLOGIES
+                </h2>
+                <p className="text-[12px] italic text-[#a93226] font-medium leading-tight">
+                  Solutions Informatiques, Réseaux et Télécoms
+                </p>
+                <p className="text-[11px] italic text-[#a93226] font-medium leading-tight">
+                  Formation - Maintenance - Développement - Sécurité
+                </p>
               </div>
             </div>
 
-            {/* Titre */}
-            <div className="text-center my-8">
-              <h1 className="text-[22px] font-bold text-[#1d7fa6] underline underline-offset-4 tracking-wide font-sans">
+            {/* Titre du document */}
+            <div className="text-center my-6">
+              <h1 className="text-2xl font-extrabold text-[#1c2c5b] underline underline-offset-4 tracking-wider uppercase">
                 ATTESTATION DE STAGE
               </h1>
             </div>
 
-            {/* Corps */}
-            <div className="flex flex-col gap-7 text-justify text-black text-[14px] leading-[1.8]">
+            {/* Corps du texte */}
+            <div className="space-y-6 text-justify text-slate-900 text-[14px] leading-[1.8] my-4">
               <p>
                 Je soussigné, <strong>{formData.directorTitleName}</strong>, Directeur Général de <strong>{formData.companyName}</strong>, certifie que{" "}
                 <strong>{formData.studentGender} {formData.studentFullName}</strong> né(e) le <strong>{formatDateDisplay(formData.birthDate)}</strong> à{" "}
-                <strong>{formData.birthPlace}</strong>, étudiant(e) à <strong>{formData.schoolName}</strong> en <strong>{formData.filiere}</strong>,{" "}
-                a effectué un stage et formation au sein de notre entreprise du <strong>{formData.startPeriod} au {formData.endPeriod}</strong>.
+                <strong>{formData.birthPlace}</strong>, étudiant(e) à <strong>{formData.schoolName}</strong> en <strong>{formData.filiere}</strong>, a effectué un stage et formation au sein de notre entreprise du <strong>{formData.startPeriod} au {formData.endPeriod}</strong>.
               </p>
 
               <p>
@@ -449,23 +484,31 @@ export default function CreateAttestationView({
               <p>La présente attestation est délivrée pour servir et valoir ce que de droit.</p>
             </div>
 
-            {/* Lieu et Date */}
-            <div className="text-right font-bold mt-8 text-[14px]">
-              <strong>Fait à {formData.issuePlace}, le {formatDateDisplay(formData.issueDate)}.</strong>
-            </div>
+            {/* Fait à et Signature */}
+            <div className="mt-12 space-y-10">
+              <div className="text-right font-bold text-slate-900 text-[14px]">
+                Fait à {formData.issuePlace}, le {formatDateInFrench(formData.issueDate)}.
+              </div>
 
-            {/* Signature */}
-            <div className="text-right mt-auto mb-3 flex flex-col gap-1 items-end font-sans">
-              <div className="font-bold text-[15px] text-black">Mr Aziz SAIBOU</div>
-              <div className="underline text-[15px] text-black">Le Directeur Général</div>
+              <div className="flex justify-end">
+                <div className="text-center min-w-[200px]">
+                  <p className="font-bold text-slate-900 text-[14px]">Mr Aziz SAIBOU</p>
+                  <p className="underline font-semibold text-slate-900 text-[14px] mt-0.5">
+                    Le Directeur Général
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Footer Document */}
-          <div className="relative z-10 border-t-2 border-[#1d7fa6] pt-2.5 flex justify-between text-[11px] text-[#1d7fa6] font-sans">
-            <span>contact@beninhub-tech.net</span>
-            <span>Abomey-Calavi</span>
-            <span>+229 01 97 77 06 36</span>
+          {/* Pied de page */}
+          <div className="relative z-10 pt-3 border-t-2 border-[#1c2c5b] text-center text-[10.5px] text-[#1c2c5b] font-medium leading-tight">
+            <p className="uppercase">
+              RCCM N° RB/ABC/26 A 137778 — IFU N° 0202112313395 — BCDBANK N° 00101211202656401
+            </p>
+            <p>
+              Abomey-Calavi, Rep. du Bénin — Tél : +229 01 97 77 06 36 — Email: contact@beninhub-tech.net
+            </p>
           </div>
         </div>
       </div>
