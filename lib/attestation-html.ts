@@ -77,13 +77,15 @@ export const ATTESTATION_CSS = [
   ".att-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); font-size: 240px; font-weight: 900; font-family: Arial, Helvetica, sans-serif; color: #1c2c5b; opacity: 0.04; pointer-events: none; user-select: none; z-index: 1; }",
   ".att-content { position: relative; z-index: 10; display: flex; flex-direction: column; flex: 1; }",
   ".att-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #1c2c5b; padding-bottom: 12px; margin-bottom: 35px; }",
-  ".att-brand-logo { font-size: 46px; font-weight: 900; font-family: Arial, Helvetica, sans-serif; line-height: 1; letter-spacing: -1px; }",
-  ".att-brand-logo .blue { color: #1c2c5b; }",
-  ".att-brand-logo .red { color: #c0392b; }",
+  ".att-brand-logo { font-size: 46px; font-weight: 900; font-family: Arial, Helvetica, sans-serif; line-height: 1; letter-spacing: -1px; position: relative; display: inline-flex; align-items: center; }",
+  ".att-brand-logo .blue { color: #1c2c5b; position: relative; z-index: 2; }",
+  ".att-brand-logo .red { color: #ffffff; position: relative; z-index: 2; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 44px; margin: 0 2px; }",
+  ".att-brand-logo .red-accent { position: absolute; inset: 0; margin: auto; width: 40px; height: 40px; background: #c9784f; border-radius: 6px; transform: rotate(12deg); z-index: -1; }",
   ".att-header-right { text-align: right; }",
   ".att-company-name { font-size: 18px; font-weight: 800; color: #1c2c5b; text-transform: uppercase; letter-spacing: 0.5px; margin: 0; }",
   ".att-subtitle-1 { font-size: 11.5px; font-style: italic; color: #a93226; font-weight: 600; line-height: 1.2; margin: 2px 0 0 0; }",
   ".att-subtitle-2 { font-size: 10.5px; font-style: italic; color: #a93226; font-weight: 500; line-height: 1.2; margin: 2px 0 0 0; }",
+  ".att-ref { font-size: 12px; font-weight: 700; color: #000000; margin: 0 0 4px 0; text-align: center; }",
   ".att-title { text-align: center; margin: 20px 0 35px 0; }",
   ".att-title h1 { font-size: 22px; font-weight: 800; color: #1c2c5b; text-decoration: underline; text-underline-offset: 4px; font-family: Arial, Helvetica, sans-serif; letter-spacing: 1px; margin: 0; text-transform: uppercase; }",
   ".att-body { text-align: justify; color: #111111; display: flex; flex-direction: column; gap: 22px; font-size: 14.5px; line-height: 1.8; }",
@@ -100,11 +102,11 @@ export const ATTESTATION_CSS = [
 function buildContent(data: AttestationData): string {
   const directorTitle = strong(data.director_title_name);
   const companyName = strong(data.company_name);
-  const studentInfo = strong("M. / Mme " + data.student_full_name);
-  const birthDate = strong(data.birth_date);
-  const birthPlace = strong(data.birth_place);
+  const studentName = strong(data.student_full_name);
+  const birthDate = esc(data.birth_date);
+  const birthPlace = esc(data.birth_place);
   const schoolName = strong(data.school_name);
-  const filiere = strong(data.filiere);
+  const filiere = esc(data.filiere);
   const period = strong(data.start_date + " au " + data.end_date);
   const poles = strong(data.poles);
   const bht = strong("BHT");
@@ -118,9 +120,10 @@ function buildContent(data: AttestationData): string {
     '<div class="att-paper">',
     '  <div class="att-watermark"><span>BHT</span></div>',
     '  <div class="att-content">',
+    '    <div class="att-ref">Réf :</div>',
     '    <div class="att-header">',
     '      <div class="att-brand-logo">',
-    '        <span class="blue">B</span><span class="red">H</span><span class="blue">T</span>',
+    '        <span class="blue">B</span><span class="red"><span class="red-accent"></span>H</span><span class="blue">T</span>',
     '      </div>',
     '      <div class="att-header-right">',
     '        <h2 class="att-company-name">BENIN HUB TECHNOLOGIES</h2>',
@@ -134,7 +137,7 @@ function buildContent(data: AttestationData): string {
     '    <div class="att-body">',
     '      <p>',
     "        Je soussigné, " + directorTitle + ", Directeur Général de " + companyName + ", ",
-    "        certifie que " + studentInfo + " né(e) le " + birthDate,
+    "        certifie que M. / Mme " + studentName + " né(e) le " + birthDate,
     "        à " + birthPlace + ", étudiant(e) à " + schoolName + " en " + filiere + ", ",
     "        a effectué un stage et formation au sein de notre entreprise du " + period + ".",
     '      </p>',

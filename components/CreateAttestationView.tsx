@@ -437,12 +437,18 @@ export default function CreateAttestationView({
           </div>
 
           <div className="relative z-10 flex flex-col flex-1">
+            {/* Référence du document */}
+            <div className="text-[12px] font-bold text-slate-900 mb-1 text-center">Réf :</div>
+
             {/* En-tête BHT */}
             <div className="flex items-center justify-between border-b-2 border-[#1c2c5b] pb-3 mb-8">
-              <div className="flex items-center font-black text-5xl tracking-tighter">
-                <span className="text-[#1c2c5b]">B</span>
-                <span className="text-[#c0392b] relative px-0.5">H</span>
-                <span className="text-[#1c2c5b]">T</span>
+              <div className="flex items-center font-black text-5xl tracking-tighter relative">
+                <span className="text-[#1c2c5b] relative z-10">B</span>
+                <span className="relative px-1 z-10 text-white">
+                  <span className="absolute inset-0 -z-10 m-auto w-9 h-9 rounded-md bg-[#c9784f] rotate-12"></span>
+                  H
+                </span>
+                <span className="text-[#1c2c5b] relative z-10">T</span>
               </div>
               <div className="text-right">
                 <h2 className="text-xl font-extrabold text-[#1c2c5b] tracking-normal uppercase">
@@ -468,8 +474,8 @@ export default function CreateAttestationView({
             <div className="space-y-6 text-justify text-slate-900 text-[14px] leading-[1.8] my-4">
               <p>
                 Je soussigné, <strong>{formData.directorTitleName}</strong>, Directeur Général de <strong>{formData.companyName}</strong>, certifie que{" "}
-                <strong>M. / Mme {formData.studentFullName}</strong> né(e) le <strong>{formatDateDisplay(formData.birthDate)}</strong> à{" "}
-                <strong>{formData.birthPlace}</strong>, étudiant(e) à <strong>{formData.schoolName}</strong> en <strong>{formData.filiere}</strong>, a effectué un stage et formation au sein de notre entreprise du <strong>{formData.startPeriod} au {formData.endPeriod}</strong>.
+                M. / Mme <strong>{formData.studentFullName}</strong> né(e) le {formatDateDisplay(formData.birthDate)} à{" "}
+                {formData.birthPlace}, étudiant(e) à <strong>{formData.schoolName}</strong> en {formData.filiere}, a effectué un stage et formation au sein de notre entreprise du <strong>{formData.startPeriod} au {formData.endPeriod}</strong>.
               </p>
 
               <p>
